@@ -1,4 +1,3 @@
-use leptos::tachys::html::property;
 use leptos::{IntoView, component, mount::mount_to_body};
 use leptos::prelude::*;
 
@@ -10,18 +9,12 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    let (count, set_count) = signal(0);
-    let double_count = move || count.get() * 2;
 
     view! {
-        <button on:click=move |_| { *set_count.write() += 1}>
-        "Click me"
-        </button>
+        <NavBar/>
 
-        <ProgressBar progress=count/>
-        <ProgressBar progress=Signal::derive(double_count)/>
+        <Footer/>
     }
-
 }
 
 // Below is an example of a doc component. These can be placed above the function, and above declared function parameters.
@@ -38,5 +31,35 @@ fn ProgressBar(
             max=max
             value=progress
         />
+    }
+}
+
+#[component]
+fn NavBar() -> impl IntoView {
+    let links = vec!["/about", "/home", "/ctfs"];
+    view! {
+        <div class="topnav">            
+            {
+                links.into_iter()
+                    .map(|link| view! { <a href={link}> {remove_prefix({link}, "/")} </a> })
+                    .collect::<Vec<_>>()
+            }
+
+            <a class="left" href="/home"> "irene" </a>
+        </div>
+    }
+}
+
+#[component]
+fn Footer() -> impl IntoView {
+    view! {
+        <p>"Bye Bye"</p>
+    }
+}
+
+fn remove_prefix<'a>(s: &'a str, prefix: &str) -> &'a str {
+    match s.strip_prefix(prefix) {
+        Some(s) => s,
+        None => s
     }
 }
