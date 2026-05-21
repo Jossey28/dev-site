@@ -11,3 +11,7 @@ and more
 
 https://colorhunt.co/palette/222831393e46948979dfd0b8 -> Nice dark-mode color palette.
 
+https://rust-lang.github.io/async-book/ -> How and why Async
+
+https://book.leptos.dev/ssr/index.html -> Server side rendering in Rust w/ Leptos
+

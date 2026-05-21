@@ -3,7 +3,66 @@ name = "dev-site"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
-console_error_panic_hook = "0.1.7"
-leptos = { version = "0.8.19", features = ["csr"] }
-rand = "0.10.1"
+leptos = { version = "0.8.19", features = ["ssr"] }
+leptos_axum = { version = "0.8.9", optional = true}
+leptos_meta = "0.8.6"
+leptos_router = "0.8.13"
+
+axum = { version = "0.8.9", optional = true}
+console_error_panic_hook = { version = "0.1.7", optional = true}
+
+tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"], optional = true}
+wasm-bindgen = { version = "0.2.121", optional = true}
+
+rand = { version = "0.10.1"}
+getrandom = { version = "0.4.2", features = ["wasm_js"]}
+tower-livereload = "0.10.3"
+
+
+[features] # Pretty much everything below here was ripped from: https://github.com/leptos-rs/start-axum/blob/main/Cargo.toml
+hydrate = [
+    "leptos/hydrate",
+    "dep:console_error_panic_hook",
+    "dep:wasm-bindgen",
+]
+ssr = [
+    "dep:axum",
+    "dep:tokio",
+    "dep:leptos_axum",
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+]
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[[workspace.metadata.leptos]]
+name = "dev-site"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+
+style-file = "style/main.scss"
+assets-dir = "public"
+
+site-addr = "127.0.0.1:8080"
+reload-port = 8081
+
+browserquery = "defaults"
+
+bin-package = "dev-site"
+bin-features = ["ssr"]
+bin-default-features = false
+
+lib-package = "dev-site"
+lib-features = ["hydrate"]
+lib-default-features = false
+lib-profile-release = "wasm-release"
