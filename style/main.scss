@@ -7,6 +7,7 @@ body {
     padding: 10px;
 
     color: whitesmoke;
+
 }
 
 main {
@@ -20,9 +21,41 @@ footer {
     width: 100%;
 }
 
-// #88x31 {
-    
-// }
+.copyright { // https://stackoverflow.com/questions/2731214/html-copy-doesnt-show
+    font-family: Arial, "Helvetica Neue ", Helvetica, sans-serif;
+}
+
+// About me Scroll Start 
+
+[class="88x31s"] a {
+    padding: 50px;
+}
+
+.marquee-container {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.marquee-content { // https://dev.to/ryandsouza13/creating-the-classic-marquee-effect-without-the-marquee-tag-4246
+    display: inline-block;
+    padding-left: 100%;
+
+    animation: marquee-animation 15s linear infinite;
+    animation-delay: random($limit: 5);
+}
+
+.marquee-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-animation {
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
+
+// About me Scroll End 
 
 #topnav {
     background-color: #393E46;

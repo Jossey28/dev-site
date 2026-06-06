@@ -1,3 +1,5 @@
+use std::{process::{Command, Output}, time::{SystemTime, UNIX_EPOCH}};
+
 use leptos::prelude::*;
 use leptos_use::use_favicon;
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
@@ -6,8 +8,6 @@ use leptos_router::{
     StaticSegment,
 };
 
-use rand::{RngExt};
-
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
 		<!DOCTYPE html>
@@ -15,7 +15,11 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 			<head>
 				<meta charset="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta name="dcterms.rightsHolder" content="Jossey Corp." />
+				<meta name="dcterms.rights" content="Copyright 2026, All Rights Reserved." />
+
 				<AutoReload options=options.clone() />
+
 				<HydrationScripts options />
 				<MetaTags />
 			</head>
@@ -64,22 +68,55 @@ fn AboutMe() -> impl IntoView {
     view! {
 		<section id="about-me">
 			<h2 style="text-decoration: underline;">"About Me"</h2>
-            <table id="88x31" class="marquee-content">
-                <tbody>
+			<table id="88x31 Table" class="marquee-container">
+				<tbody>
 					<tr>
-						<td>
-							<a href="https://lumiverse.dev/" target="_blank">
-								<img src="/assets/88x31s/lumi-88x31.gif" width=88 height=31 />
-							</a>
-
-							<a href="https://lumiverse.dev/" target="_blank">
-								<img src="/assets/88x31s/lumi-88x31.gif" width=88 height=31 />
-							</a>
+						<td class="88x31s marquee-content">
+							<Eightyeight
+								link="https://github.com/Jossey28/dev-site"
+								image="/assets/88x31s/opensource-88x31.gif"
+							/>
+							<Eightyeight
+								link="https://lumiverse.dev/"
+								image="/assets/88x31s/lumi-88x31.gif"
+							/>
+							<Eightyeight
+								link="https://rust-lang.org"
+								image="/assets/88x31s/rust-88x31.gif"
+							/>
 						</td>
 					</tr>
-                </tbody>
-            </table>
-        </section>
+					<tr>
+						<td class="88x31s marquee-content">
+							<Eightyeight
+								link="https://github.com/Jossey28/dev-site"
+								image="/assets/88x31s/opensource-88x31.gif"
+							/>
+							<Eightyeight
+								link="https://lumiverse.dev/"
+								image="/assets/88x31s/lumi-88x31.gif"
+							/>
+							<Eightyeight
+								link="https://rust-lang.org"
+								image="/assets/88x31s/rust-88x31.gif"
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	}
+}
+
+#[component]
+fn Eightyeight(
+	image: &'static str,
+	link: &'static str
+) -> impl IntoView {
+	view! {
+		<a href=link target="_blank">
+			<img src=image width=88 height=31 />
+		</a>
 	}
 }
 
@@ -114,25 +151,42 @@ fn NavBar() -> impl IntoView {
 #[component]
 fn Footer() -> impl IntoView {
     let quotes = vec!["Accept everything just the way it is", "ts so chopped", "I'm employed bro 🫰", "i aint got none", "Thankfully I'm immortal as I've never died before"];
-    let mut rng = rand::rng();
-    
-    let index: usize  = { // TODO! Fix Fix this horrible implementation
-        let num: u8 = rng.random();
-        let i: u8 = num % quotes.len() as u8;
-        i as usize
-    };
+    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+	let quote = quotes[(now % quotes.len() as u64) as usize]; // T-T
 
-    let quote_opt = quotes.get(index);
-    let quote = match quote_opt {
-        Some(_) =>  { *quote_opt.unwrap() },
-        _ => "Hello there",
-    };
+	let get_commit = || { 
+		let prim = option_env!("GIT_COMMIT_SHA_RUST");
+		let secnd = option_env!("GIT_COMMIT_SHA_DOCKER"); 
+
+		if Some(sha) == prim {
+			let commit = prim.unwrap();
+			if commit.len() > 3 {
+				return commit
+			}
+		} 
+		
+		if Some(sha) == secnd {
+			let commit = secnd.unwrap();
+			if commit.len() > 3 {
+				return commit
+			}
+		} 
+		
+		"unknown"
+	};
 
     view! {
 		<footer>
-			<div>
-				<p>{format!("© 2026 Jossey28 | {} ™ — Aristotle", quote)}</p>
-			</div>
+			<small>
+				<span class="copyright">"\u{00A9}"</span>
+				<span>
+					<a href=format!(
+						"https://github.com/Jossey28/dev-site/commit/{}",
+						commit,
+					)>{format!("2026 Jossey28 @ {} ", commit)}</a>
+				</span>
+				<span>{format!(" | {} ™ — Aristotle", quote)}</span>
+			</small>
 		</footer>
 	}
 }

@@ -19,14 +19,26 @@ async fn main() {
             move || shell(leptos_options.clone()) 
         })
         .fallback(leptos_axum::file_and_error_handler(shell))
-        .layer(LiveReloadLayer::new())
         .with_state(leptos_options);
+    
+    #[cfg(debug_assertions)]
+    {
+        let app = app.clone().layer(LiveReloadLayer::new());
+        log!("LIVE RELOAD ON ; listening on http://{}", &addr);
+        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+        axum::serve(listener, app.into_make_service())
+            .await
+            .unwrap();
+    }
 
-    log!("listening on http://{}", &addr);
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    axum::serve(listener, app.into_make_service())
-        .await
-        .unwrap();
+    #[cfg(not(debug_assertions))]
+    {
+        log!("listening on http://{}", &addr);
+        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+        axum::serve(listener, app.into_make_service())
+            .await
+            .unwrap();
+    }
 }
 
 #[cfg(not(feature = "ssr"))]
