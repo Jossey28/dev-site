@@ -7,6 +7,7 @@ use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+use rand::{rng, seq::SliceRandom};
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -67,41 +68,17 @@ fn HomePage() -> impl IntoView {
 fn AboutMe() -> impl IntoView {
     view! {
 		<section id="about-me">
-			<h2 style="text-decoration: underline;">"About Me"</h2>
-			<table id="88x31 Table" class="marquee-container">
+			<h2>
+				"About Me via " <span style="text-decoration: underline;">
+					<a href="https://en.wikipedia.org/wiki/Web_badge">"88x31s"</a>
+				</span>
+			</h2>
+
+			<table id="table-of-88x31s" class="marquee-container">
 				<tbody>
-					<tr>
-						<td class="88x31s marquee-content">
-							<Eightyeight
-								link="https://github.com/Jossey28/dev-site"
-								image="/assets/88x31s/opensource-88x31.gif"
-							/>
-							<Eightyeight
-								link="https://lumiverse.dev/"
-								image="/assets/88x31s/lumi-88x31.gif"
-							/>
-							<Eightyeight
-								link="https://rust-lang.org"
-								image="/assets/88x31s/rust-88x31.gif"
-							/>
-						</td>
-					</tr>
-					<tr>
-						<td class="88x31s marquee-content">
-							<Eightyeight
-								link="https://github.com/Jossey28/dev-site"
-								image="/assets/88x31s/opensource-88x31.gif"
-							/>
-							<Eightyeight
-								link="https://lumiverse.dev/"
-								image="/assets/88x31s/lumi-88x31.gif"
-							/>
-							<Eightyeight
-								link="https://rust-lang.org"
-								image="/assets/88x31s/rust-88x31.gif"
-							/>
-						</td>
-					</tr>
+					<Create88x31Row />
+					<Create88x31Row />
+					<Create88x31Row />
 				</tbody>
 			</table>
 		</section>
@@ -109,14 +86,64 @@ fn AboutMe() -> impl IntoView {
 }
 
 #[component]
-fn Eightyeight(
-	image: &'static str,
-	link: &'static str
+fn EightyEight(
+	info: EightyEightData
 ) -> impl IntoView {
 	view! {
-		<a href=link target="_blank">
-			<img src=image width=88 height=31 />
+		<a href=info.link target="_blank">
+			<img
+				title=info.title.unwrap_or_else(|| "")
+				src=format!("/assets/88x31s/{}", info.image)
+				alt=format!("eighty eight by thirty one linking to {}", info.link)
+				width=88
+				height=31
+			/>
 		</a>
+	}
+}
+
+#[component]
+fn Create88x31Row() -> impl IntoView {
+	let mut eights: Vec<EightyEightData> = vec![ 
+		EightyEightData::new("opensource-88x31.gif", "https://github.com/Jossey28/dev-site", None),
+		EightyEightData::new("powered_by_nixos-88x31.gif", "https://nixos.org/", None),
+		EightyEightData::new("made_on_linux-88x31.gif", "https://stallman-copypasta.github.io/", None),
+		EightyEightData::new("rtr-88x31.gif", "https://www.youtube.com/@rossmanngroup/", None),
+		EightyEightData::new("rust-88x31.gif", "https://rust-lang.org/", None),
+		EightyEightData::new("lumi-88x31.gif", "https://lumiverse.dev/", Some("Lumi!! qwq")),
+		EightyEightData::new("arch_btw-88x31.gif", "https://archlinux.org/", Some("I use arch btw")),
+		EightyEightData::new("xbox_live-88x31.gif", "https://xenia-emulator.com/xbox-360-roms/", None),
+		EightyEightData::new("xbox_live-88x31.gif", "https://xenia-emulator.com/xbox-360-roms/", None),
+		EightyEightData::new("hosted_on_a_pi-88x31.gif", "https://raspberrypi.com", None),
+	];
+
+	let mut r = rng();
+	eights.shuffle(&mut r);
+
+	view! {
+		<tr>
+			<td class="class-88x31s marquee-content">
+				// https://docs.rs/leptos/latest/leptos/attr.component.html
+				{eights
+					.iter()
+					.map(|child| view! { <EightyEight info=*child /> })
+					.collect::<Vec<_>>()}
+			</td>
+		</tr>
+	}
+}
+
+#[derive(Debug, Clone, Copy)]
+struct EightyEightData {
+	image: &'static str,
+	link: &'static str,
+
+	title: Option<&'static str>
+}
+
+impl EightyEightData {
+	fn new(image: &'static str, link: &'static str, title: Option<&'static str>) -> Self {
+		Self { image, link, title }
 	}
 }
 
@@ -126,6 +153,8 @@ fn PageNotFound() -> impl IntoView {
 		<NavBar />
 
 		<h1>"Page not Found"</h1>
+
+		<Footer />
 	}
 }
 
@@ -173,6 +202,8 @@ fn Footer() -> impl IntoView {
 		"unknown"
 	};
 
+	let next = EightyEightData::new("continue_the_ring-88x31-gif", "https://schlumbis.dev/", None);
+
     view! {
 		<footer>
 			<small>
@@ -181,10 +212,19 @@ fn Footer() -> impl IntoView {
 					<a href=format!(
 						"https://github.com/Jossey28/dev-site/commit/{}",
 						commit,
-					)>{format!(" 2026 Jossey28 @ {} ", commit.chars().take(7).collect::<String>())}</a>
+					)>
+						{format!(
+							" 2026 Jossey28 @ {} ",
+							commit.chars().take(7).collect::<String>(),
+						)}
+					</a>
 				</span>
 				<span>{format!(" | {} ™ — Aristotle", quote)}</span>
 			</small>
+
+			<span id="ring-next">
+				<EightyEight info=next />
+			</span>
 		</footer>
 	}
 }
