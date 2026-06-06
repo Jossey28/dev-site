@@ -42,37 +42,54 @@ a {
 
 // About me Scroll Start 
 
-.class-88x31s a {
-    margin: 15px;
+// .class-88x31s a {
+//     margin: 15px;
+// }
+
+// .marquee-container {
+//     display: flex;
+//     width: 100%;
+//     white-space: nowrap;
+//     overflow: hidden;
+// }
+
+.marquee-boss {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-// #table-of-88x31s > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(1) > a:nth-child(5)
-// html body.dark.centered main section#about-me table#table-of-88x31s.marquee-container tbody tr td.88x31s.marquee-content a
-
-.marquee-container {
-    display: flex;
-    width: 100%;
-    white-space: nowrap;
+.marquee-row-container {
     overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    width: max-content;
 }
 
 .marquee-content { // https://dev.to/ryandsouza13/creating-the-classic-marquee-effect-without-the-marquee-tag-4246
     display: flex;
-    flex-shrink: 0;
-    width: 100%;
+    align-items: center;
+
+    // overflow: hidden;
 
     // animation: marquee-animation 7s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
     animation: marquee-animation 15s linear infinite;
     animation-delay: calc(sibling-index() * 100ms);
 }
 
-.marquee-content:has(a:hover) {
+.marquee-content a {
+    margin: 10px;
+}
+
+.marquee-row-container:has(a:hover) .marquee-content {
     animation-play-state: paused;
 }
 
 @keyframes marquee-animation {
     0% {
-        transform: translateX(100%);
+        transform: translateX(0%);
     }
 
     100% {

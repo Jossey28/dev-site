@@ -81,13 +81,11 @@ fn AboutMe() -> impl IntoView {
 			// </span>
 			</h2>
 
-			<table id="table-of-88x31s" class="marquee-container">
-				<tbody>
-					<Create88x31Row />
-					<Create88x31Row />
-					<Create88x31Row />
-				</tbody>
-			</table>
+			<div id="table-of-88x31s" class="marquee-boss">
+				<Create88x31Row />
+				<Create88x31Row />
+				<Create88x31Row />
+			</div>
 		</section>
 	}
 }
@@ -144,15 +142,22 @@ fn Create88x31Row() -> impl IntoView {
 	eights.shuffle(&mut r);
 
 	view! {
-		<tr>
-			<td class="class-88x31s marquee-content">
+		<div class="marquee-row-container">
+			<span class="class-88x31s marquee-content">
 				// https://docs.rs/leptos/latest/leptos/attr.component.html
 				{eights
 					.iter()
 					.map(|child| view! { <EightyEight info=*child /> })
 					.collect::<Vec<_>>()}
-			</td>
-		</tr>
+			</span>
+
+			<span class="class-88x31s marquee-content">
+				{eights
+					.iter()
+					.map(|child| view! { <EightyEight info=*child /> })
+					.collect::<Vec<_>>()}
+			</span>
+		</div>
 	}
 }
 
