@@ -107,7 +107,7 @@ fn NavBar() -> impl IntoView {
 
 #[component]
 fn Footer() -> impl IntoView {
-    let quotes = vec!["Accept everything just the way it is", "ts so chopped", "I'm employed bro 🫰", "i aint got none", " Lorem ipsum dolor sit amet"];
+    let quotes = vec!["Accept everything just the way it is", "ts so chopped", "I'm employed bro 🫰", "i aint got none", "Thankfully I'm immortal as I've never died before"];
     let mut rng = rand::rng();
     
     let index: usize  = { // TODO! Fix Fix this horrible implementation
