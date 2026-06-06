@@ -14,7 +14,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 		<html>
 			<head>
 				<meta charset="utf-8" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta name="dcterms.rightsHolder" content="Jossey Corp." />
 				<meta name="dcterms.rights" content="Copyright 2026, All Rights Reserved." />
 
@@ -154,21 +154,19 @@ fn Footer() -> impl IntoView {
     let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
 	let quote = quotes[(now % quotes.len() as u64) as usize]; // T-T
 
-	let get_commit = || { 
+	let commit = 'get_commit: { 
 		let prim = option_env!("GIT_COMMIT_SHA_RUST");
 		let secnd = option_env!("GIT_COMMIT_SHA_DOCKER"); 
 
-		if Some(sha) == prim {
-			let commit = prim.unwrap();
-			if commit.len() > 3 {
-				return commit
+		if let Some(sha) = prim {
+			if sha.len() > 3 {
+				break 'get_commit sha
 			}
 		} 
 		
-		if Some(sha) == secnd {
-			let commit = secnd.unwrap();
-			if commit.len() > 3 {
-				return commit
+		if let Some(sha) = secnd {
+			if sha.len() > 3 {
+				break 'get_commit sha
 			}
 		} 
 		
@@ -178,12 +176,12 @@ fn Footer() -> impl IntoView {
     view! {
 		<footer>
 			<small>
-				<span class="copyright">"\u{00A9}"</span>
+				<span class="copyright">"\u{00A9} "</span>
 				<span>
 					<a href=format!(
 						"https://github.com/Jossey28/dev-site/commit/{}",
 						commit,
-					)>{format!("2026 Jossey28 @ {} ", commit)}</a>
+					)>{format!(" 2026 Jossey28 @ {} ", commit.chars().take(7).collect::<String>())}</a>
 				</span>
 				<span>{format!(" | {} ™ — Aristotle", quote)}</span>
 			</small>
