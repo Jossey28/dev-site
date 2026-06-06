@@ -9,13 +9,12 @@ async fn main() {
     use tower_livereload::LiveReloadLayer;
 
     let conf = get_configuration(None).unwrap();
-    let addr = conf.leptos_options.site_addr;
+    let addr = "0.0.0.0:300";
     let leptos_options = conf.leptos_options;
     let routes = generate_route_list(App);
 
     let app = Router::new()
         .leptos_routes(&leptos_options, routes, {
-
             let leptos_options = leptos_options.clone();
             move || shell(leptos_options.clone()) 
         })
@@ -28,4 +27,9 @@ async fn main() {
     axum::serve(listener, app.into_make_service())
         .await
         .unwrap();
+}
+
+#[cfg(not(feature = "ssr"))]
+fn main() {
+    panic!(r#"Non-SSR mode hasn't been made yet. Run "cargo run --features ssr" to execute"#)
 }
