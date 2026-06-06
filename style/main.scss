@@ -15,7 +15,7 @@ body {
 
     color: whitesmoke;
 
-    height: 100vh;
+    height: 97vh;
 }
 
 footer {
@@ -50,17 +50,19 @@ a {
 // html body.dark.centered main section#about-me table#table-of-88x31s.marquee-container tbody tr td.88x31s.marquee-content a
 
 .marquee-container {
+    display: flex;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
 }
 
 .marquee-content { // https://dev.to/ryandsouza13/creating-the-classic-marquee-effect-without-the-marquee-tag-4246
-    display: inline-block;
-    padding-left: 100%;
+    display: flex;
+    flex-shrink: 0;
+    width: 100%;
 
     // animation: marquee-animation 7s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
-    animation: marquee-animation 7s linear infinite;
+    animation: marquee-animation 15s linear infinite;
     animation-delay: calc(sibling-index() * 100ms);
 }
 
@@ -69,8 +71,12 @@ a {
 }
 
 @keyframes marquee-animation {
+    0% {
+        transform: translateX(100%);
+    }
+
     100% {
-        transform: translate(-100%, 0);
+        transform: translateX(-100%);
     }
 }
 

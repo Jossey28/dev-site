@@ -1,4 +1,4 @@
-use std::{process::{Command, Output}, time::{SystemTime, UNIX_EPOCH}};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use leptos::prelude::*;
 use leptos_use::use_favicon;
@@ -46,7 +46,9 @@ pub fn App() -> impl IntoView {
 
 		<Router>
 			<main>
-				<Routes fallback=|| PageNotFound>
+				<Routes fallback=move || {
+					view! { <HomePage /> }
+				}>
 					<Route path=StaticSegment("") view=HomePage />
 					<Route path=StaticSegment("/home") view=HomePage />
 				</Routes>
@@ -58,7 +60,7 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     view! {
-		<NavBar />
+		// <NavBar />
 		<AboutMe />
 		<Footer />
 	}
@@ -66,12 +68,17 @@ fn HomePage() -> impl IntoView {
 
 #[component]
 fn AboutMe() -> impl IntoView {
+	let mat_88 = EightyEightData::new("mat_does_dev-88x31.gif", "https://matdoes.dev/", Some("Great collecter of 88x31s"));
+
     view! {
 		<section id="about-me">
 			<h2>
 				"About Me via " <span style="text-decoration: underline;">
 					<a href="https://en.wikipedia.org/wiki/Web_badge">"88x31s"</a>
 				</span>
+			// "couresty of" <span id="mat-apprecation">
+			// <EightyEight info=mat_88 />
+			// </span>
 			</h2>
 
 			<table id="table-of-88x31s" class="marquee-container">
@@ -115,6 +122,22 @@ fn Create88x31Row() -> impl IntoView {
 		EightyEightData::new("xbox_live-88x31.gif", "https://xenia-emulator.com/xbox-360-roms/", None),
 		EightyEightData::new("xbox_live-88x31.gif", "https://xenia-emulator.com/xbox-360-roms/", None),
 		EightyEightData::new("hosted_on_a_pi-88x31.gif", "https://raspberrypi.com", None),
+		EightyEightData::new("stop_sign-88x31.gif", "https://matdoes.dev/buttons#d0f3c00fbd84b58dd3ab3cc353fc3ffd", None),
+		EightyEightData::new("emulate_now-88x31.gif", "https://matdoes.dev/buttons#d0f3c00fbd84b58dd3ab3cc353fc3ffd", None),
+		EightyEightData::new("sleepy-88x31.gif", "https://www.nhlbi.nih.gov/health/sleep/why-sleep-important", None),
+		EightyEightData::new("hacker_powered-88x31.gif", "https://iateched.org/", None),
+		EightyEightData::new("cookie_free-88x31.gif", "https://improvado.io/blog/what-is-tracking-pixel", Some("It gets to a point")),
+		EightyEightData::new("archive-88x31.gif", "https://archive.org/donate", None),
+		EightyEightData::new("copy_that_floppy-88x31.gif", "https://archive.org/donate", None),
+		EightyEightData::new("neocities-88x31.gif", "https://neocities.org/", None),
+		EightyEightData::new("midi_files-88x31.gif", "https://www.nccih.nih.gov/health/music-and-health-what-you-need-to-know", None),
+		EightyEightData::new("dr_pepper-88x31.gif", "https://drpepper.com/en", None),
+		EightyEightData::new("im_no_diva-88x31.gif", "https://dev-site.homecamp.biz", None),
+		EightyEightData::new("steam_powered-88x31.gif", "https://web.archive.org/web/20041115052057/http://steampowered.com/", None),
+		EightyEightData::new("kitrinos-88x31.gif", "https://kitrinos.neocities.org/", None),
+		EightyEightData::new("cool_graphics-88x31.gif", "https://codepen.io/trending", None),
+		EightyEightData::new("hellnet-88x31.gif", "https://hellnet.work/", None),
+		EightyEightData::new("wikipedia-88x31.gif", "https://en.wikipedia.org/wiki/Main_Page", None),
 	];
 
 	let mut r = rng();
@@ -164,13 +187,7 @@ fn NavBar() -> impl IntoView {
 		<nav id="topnav">
 			<ui>
 				<li class="left">
-					<a href="/home">"irene"</a>
-				</li>
-				<li>
-					<a href="/blog">blog</a>
-				</li>
-				<li>
-					<a href="/comps">accomplishments</a>
+					<a href="/home">"home"</a>
 				</li>
 			</ui>
 		</nav>
