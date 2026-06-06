@@ -25,7 +25,7 @@ footer {
     width: 100%;
 
     padding-bottom: 10px;
-}
+} // Figure out how to get footer text to be at the bottom of footer
 
 footer #ring-next {
     float: inline-end;
@@ -42,23 +42,11 @@ a {
 
 // About me Scroll Start 
 
-// .class-88x31s a {
-//     margin: 15px;
-// }
-
-// .marquee-container {
-//     display: flex;
-//     width: 100%;
-//     white-space: nowrap;
-//     overflow: hidden;
-// }
-
 .marquee-boss {
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .marquee-row-container {
@@ -72,15 +60,12 @@ a {
     display: flex;
     align-items: center;
 
-    // overflow: hidden;
-
-    // animation: marquee-animation 7s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
     animation: marquee-animation 15s linear infinite;
     animation-delay: calc(sibling-index() * 100ms);
 }
 
 .marquee-content a {
-    margin: 10px;
+    padding: 3px;
 }
 
 .marquee-row-container:has(a:hover) .marquee-content {
