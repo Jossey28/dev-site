@@ -4,6 +4,9 @@ FROM rust:1.92.0 AS builder
 
 WORKDIR /app
 
+ARG GIT_COMMIT_SHA_ARG="unknown"
+ENV GIT_COMMIT_SHA_DOCKER=${GIT_COMMIT_SHA_ARG}
+
 RUN rustup target add wasm32-unknown-unknown
 RUN cargo install cargo-leptos --locked
 
