@@ -9,7 +9,7 @@ async fn main() {
     use tower_livereload::LiveReloadLayer;
 
     let conf = get_configuration(None).unwrap();
-    let addr = "0.0.0.0:300";
+    let addr = "0.0.0.0:8080";
     let leptos_options = conf.leptos_options;
     let routes = generate_route_list(App);
 

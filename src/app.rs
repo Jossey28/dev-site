@@ -64,13 +64,19 @@ fn AboutMe() -> impl IntoView {
     view! {
 		<section id="about-me">
 			<h2 style="text-decoration: underline;">"About Me"</h2>
-            <table id="88x31">
-                <thead>
-                    <tr>
-                        
-                    </tr>
-                </thead>
+            <table id="88x31" class="marquee-content">
                 <tbody>
+					<tr>
+						<td>
+							<a href="https://lumiverse.dev/" target="_blank">
+								<img src="/assets/88x31s/lumi-88x31.gif" width=88 height=31 />
+							</a>
+
+							<a href="https://lumiverse.dev/" target="_blank">
+								<img src="/assets/88x31s/lumi-88x31.gif" width=88 height=31 />
+							</a>
+						</td>
+					</tr>
                 </tbody>
             </table>
         </section>
