@@ -17,6 +17,8 @@ git clone https://github.com/Jossey28/dev-site.git jossies_site
 cd jossies_site
 
 cargo build
+
+cargo install leptosfmt
 cargo install --locked cargo-leptos
 
 cargo leptos watch --hot-reload

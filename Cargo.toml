@@ -21,6 +21,7 @@ wasm-bindgen = { version = "0.2.121", optional = true}
 rand = { version = "0.10.1"}
 getrandom = { version = "0.4.2", features = ["wasm_js"]}
 tower-livereload = "0.10.3"
+leptos-use = "0.18.3"
 
 
 [features] # Pretty much everything below here was ripped from: https://github.com/leptos-rs/start-axum/blob/main/Cargo.toml

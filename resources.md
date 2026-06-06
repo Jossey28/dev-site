@@ -15,3 +15,5 @@ https://rust-lang.github.io/async-book/ -> How and why Async
 
 https://book.leptos.dev/ssr/index.html -> Server side rendering in Rust w/ Leptos
 
+https://leptos-use.rs/introduction.html -> "Collection of essential Leptos utilities"
+
