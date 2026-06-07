@@ -1,3 +1,7 @@
+* {
+    font-family: "Exo 2";
+}
+
 html {
     box-sizing: border-box;
     max-width: 100%;
@@ -129,4 +133,25 @@ a {
 
 #topnav a.current {
     color: aqua;
+}
+
+#github-card-container > * {
+    background-color: #393E46 !important;
+    color: whitesmoke !important;
+}
+
+#github-card-container > * > * {
+    background-color: #393E46 !important;
+    color: whitesmoke !important;
+}
+
+#github-card-container > * > * > * {
+    background-color: #393E46 !important;
+    color: whitesmoke !important;
+}
+
+#github-card-container > * > * > * > * {
+    background-image: none;
+    background-color: #393E46 !important;
+    color: whitesmoke !important;
 }
