@@ -135,23 +135,12 @@ a {
     color: aqua;
 }
 
-#github-card-container > * {
-    background-color: #393E46 !important;
-    color: whitesmoke !important;
-}
+// #github-card-container * {
+//     background-color: #393E46 !important;
+//     background-image: none;
 
-#github-card-container > * > * {
-    background-color: #393E46 !important;
-    color: whitesmoke !important;
-}
+//     color: whitesmoke !important;
 
-#github-card-container > * > * > * {
-    background-color: #393E46 !important;
-    color: whitesmoke !important;
-}
-
-#github-card-container > * > * > * > * {
-    background-image: none;
-    background-color: #393E46 !important;
-    color: whitesmoke !important;
-}
+//     border-radius: 5px;
+//     border-width: 1px;
+// }

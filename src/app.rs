@@ -283,7 +283,7 @@ fn Projects() -> impl IntoView {
             <span id="github-card-container">
                 <div id="github-card"
                     data-max-repos="5"
-                    data-username="Jossey28" style="width: 100%; height: fit-content; background: #393E46;">
+                    data-username="Jossey28" style="width: 100%; height: fit-content;">
                 </div>
             </span>
         </section>
