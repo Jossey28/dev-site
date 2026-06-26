@@ -302,6 +302,7 @@ fn Footer() -> impl IntoView {
         "I'm employed bro 🫰",
         "i aint got none",
         "Thankfully I'm immortal as I've never died before",
+        "And when Jossey28 saw the breadth of his domain, he wept, for there were no more worlds left to conquer.",
     ];
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
