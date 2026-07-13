@@ -19,10 +19,13 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <meta name="dcterms.rightsHolder" content="Jossey Corp." />
                 <meta name="dcterms.rights" content="Copyright 2026, All Rights Reserved." />
 
-				// Fonts
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-				<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+                // Fonts
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+                    rel="stylesheet"
+                />
 
                 <AutoReload options=options.clone() />
 
@@ -281,19 +284,19 @@ fn Projects() -> impl IntoView {
             </h2>
 
             <span id="github-card-container">
-                <div id="github-card"
+                <div
+                    id="github-card"
                     data-max-repos="5"
-                    data-username="Jossey28" style="width: 100%; height: fit-content;">
-                </div>
+                    data-username="Jossey28"
+                    style="width: 100%; height: fit-content;"
+                ></div>
             </span>
         </section>
     }
 }
 
 #[component]
-pub fn GithubActivity() -> impl IntoView {
-    
-}
+pub fn GithubActivity() -> impl IntoView {}
 #[component]
 fn Footer() -> impl IntoView {
     let quotes = vec![
