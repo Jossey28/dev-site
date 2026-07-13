@@ -334,7 +334,7 @@ fn Footer() -> impl IntoView {
 
     let next = EightyEightData::new(
         "continue_the_ring-88x31.gif",
-        "https://schlumbis.dev/",
+        "https://crizer.dingusblingus.cc/",
         None,
     );
 
