@@ -33,6 +33,11 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <MetaTags />
 
                 <script type="text/javascript" src="/assets/js/gh-profile-card.min.js"></script>
+                <script
+                    type="text/javascript"
+                    src="https://cdn.jsdelivr.net/gh/lumilovesyou/Gleebus-Webring@main/webring.js"
+                ></script>
+
             </head>
             <body class="dark centered">
                 <App />
@@ -356,8 +361,8 @@ fn Footer() -> impl IntoView {
                 <span>{format!(" | {} ™ — Aristotle", quote)}</span>
             </small>
 
-            <span id="ring-next">
-                <EightyEight info=next />
+            <span id="ring-next" onclick="gleebusOpen(1)">
+                "Next"
             </span>
         </footer>
     }
