@@ -16,6 +16,8 @@ The current steps to run it locally are shown below
 git clone https://github.com/Jossey28/dev-site.git jossies_site
 cd jossies_site
 
+rustup target add wasm32-unknown-unknown
+
 cargo build
 
 cargo install leptosfmt

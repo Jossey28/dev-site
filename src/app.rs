@@ -97,11 +97,11 @@ fn NavBar() -> impl IntoView {
 
 #[component]
 fn AboutMe() -> impl IntoView {
-    let mat_88 = EightyEightData::new(
-        "mat_does_dev-88x31.gif",
-        Some("https://matdoes.dev/"),
-        Some("Great collecter of 88x31s"),
-    );
+    // let mat_88 = EightyEightData::new(
+    //     "mat_does_dev-88x31.gif",
+    //     Some("https://matdoes.dev/"),
+    //     Some("Great collecter of 88x31s"),
+    // );
 
     view! {
         <section id="about-me">
@@ -131,7 +131,11 @@ fn Create88x31Row() -> impl IntoView {
             Some("https://github.com/Jossey28/dev-site"),
             None,
         ),
-        EightyEightData::new("powered_by_nixos-88x31.gif", Some("https://nixos.org/"), None),
+        EightyEightData::new(
+            "powered_by_nixos-88x31.gif",
+            Some("https://nixos.org/"),
+            None,
+        ),
         EightyEightData::new(
             "made_on_linux-88x31.gif",
             Some("https://stallman-copypasta.github.io/"),
@@ -163,7 +167,11 @@ fn Create88x31Row() -> impl IntoView {
             Some("https://xenia-emulator.com/xbox-360-roms/"),
             None,
         ),
-        EightyEightData::new("hosted_on_a_pi-88x31.gif", Some("https://raspberrypi.com"), None),
+        EightyEightData::new(
+            "hosted_on_a_pi-88x31.gif",
+            Some("https://raspberrypi.com"),
+            None,
+        ),
         EightyEightData::new(
             "stop_sign-88x31.gif",
             Some("https://matdoes.dev/buttons#d0f3c00fbd84b58dd3ab3cc353fc3ffd"),
@@ -179,16 +187,24 @@ fn Create88x31Row() -> impl IntoView {
             Some("https://www.nhlbi.nih.gov/health/sleep/why-sleep-important"),
             None,
         ),
-        EightyEightData::new("hacker_powered-88x31.gif", Some("https://iateched.org/"), None),
+        EightyEightData::new(
+            "hacker_powered-88x31.gif",
+            Some("https://iateched.org/"),
+            None,
+        ),
         EightyEightData::new(
             "cookie_free-88x31.gif",
             Some("https://improvado.io/blog/what-is-tracking-pixel"),
             Some("It gets to a point"),
         ),
-        EightyEightData::new("archive-88x31.gif",Some("https://archive.org/donate"), None),
+        EightyEightData::new(
+            "archive-88x31.gif",
+            Some("https://archive.org/donate"),
+            None,
+        ),
         EightyEightData::new(
             "copy_that_floppy-88x31.gif",
-           Some("https://archive.org/donate"),
+            Some("https://archive.org/donate"),
             None,
         ),
         EightyEightData::new("neocities-88x31.gif", Some("https://neocities.org/"), None),
@@ -256,7 +272,10 @@ fn EightyEight(info: EightyEightData) -> impl IntoView {
             <img
                 title=info.title.unwrap_or_else(|| "")
                 src=format!("/assets/88x31s/{}", info.image)
-                alt=format!("eighty eight by thirty one linking to {}", info.link.unwrap_or_else(|| "nowhere :)"))
+                alt=format!(
+                    "eighty eight by thirty one linking to {}",
+                    info.link.unwrap_or_else(|| "nowhere :)"),
+                )
                 width=88
                 height=31
             />
@@ -338,14 +357,16 @@ fn Footer() -> impl IntoView {
         "unknown"
     };
 
-    let next = EightyEightData::new(
-        "continue_the_ring-88x31.gif",
-        None,
-        None,
-    );
+    let next = EightyEightData::new("continue_the_ring-88x31.gif", None, None);
+
+    let prev = EightyEightData::new("continue_the_ring-2-88x31.gif", None, None);
 
     view! {
         <footer>
+            <span id="ring-prev" onclick="gleebusOpen(-1)">
+                <EightyEight info=prev />
+            </span>
+
             <small>
                 <span class="copyright">"\u{00A9} "</span>
                 <span>
