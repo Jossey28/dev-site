@@ -1,4 +1,0 @@
-{
-    "rust-analyzer.cargo.features": "all",
-    "rust-analyzer.cargo.targetDir": "target/rust-analyzer"
-}

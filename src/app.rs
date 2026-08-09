@@ -1,5 +1,3 @@
-use std::time::{SystemTime, UNIX_EPOCH};
-
 use leptos::prelude::*;
 use leptos_meta::{MetaTags, Stylesheet, Title, provide_meta_context};
 use leptos_router::{
@@ -7,8 +5,13 @@ use leptos_router::{
     components::{Route, Router, Routes},
 };
 use leptos_use::use_favicon;
-use rand::{rng, seq::SliceRandom};
+use rand::{
+    rng,
+    seq::{IndexedRandom, SliceRandom},
+};
+use serde::Deserialize;
 
+#[must_use]
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
         <!DOCTYPE html>
@@ -46,6 +49,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
     }
 }
 
+#[must_use]
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
@@ -125,122 +129,10 @@ fn AboutMe() -> impl IntoView {
 
 #[component]
 fn Create88x31Row() -> impl IntoView {
-    let mut eights: Vec<EightyEightData> = vec![
-        EightyEightData::new(
-            "opensource-88x31.gif",
-            Some("https://github.com/Jossey28/dev-site"),
-            None,
-        ),
-        EightyEightData::new(
-            "powered_by_nixos-88x31.gif",
-            Some("https://nixos.org/"),
-            None,
-        ),
-        EightyEightData::new(
-            "made_on_linux-88x31.gif",
-            Some("https://stallman-copypasta.github.io/"),
-            None,
-        ),
-        EightyEightData::new(
-            "rtr-88x31.gif",
-            Some("https://www.youtube.com/@rossmanngroup/"),
-            None,
-        ),
-        EightyEightData::new("rust-88x31.gif", Some("https://rust-lang.org/"), None),
-        EightyEightData::new(
-            "lumi-88x31.gif",
-            Some("https://lumiverse.dev/"),
-            Some("Lumi!! qwq"),
-        ),
-        EightyEightData::new(
-            "arch_btw-88x31.gif",
-            Some("https://archlinux.org/"),
-            Some("I use arch btw"),
-        ),
-        EightyEightData::new(
-            "xbox_live-88x31.gif",
-            Some("https://xenia-emulator.com/xbox-360-roms/"),
-            None,
-        ),
-        EightyEightData::new(
-            "xbox_live-88x31.gif",
-            Some("https://xenia-emulator.com/xbox-360-roms/"),
-            None,
-        ),
-        EightyEightData::new(
-            "hosted_on_a_pi-88x31.gif",
-            Some("https://raspberrypi.com"),
-            None,
-        ),
-        EightyEightData::new(
-            "stop_sign-88x31.gif",
-            Some("https://matdoes.dev/buttons#d0f3c00fbd84b58dd3ab3cc353fc3ffd"),
-            None,
-        ),
-        EightyEightData::new(
-            "emulate_now-88x31.gif",
-            Some("https://matdoes.dev/buttons#d0f3c00fbd84b58dd3ab3cc353fc3ffd"),
-            None,
-        ),
-        EightyEightData::new(
-            "sleepy-88x31.gif",
-            Some("https://www.nhlbi.nih.gov/health/sleep/why-sleep-important"),
-            None,
-        ),
-        EightyEightData::new(
-            "hacker_powered-88x31.gif",
-            Some("https://iateched.org/"),
-            None,
-        ),
-        EightyEightData::new(
-            "cookie_free-88x31.gif",
-            Some("https://improvado.io/blog/what-is-tracking-pixel"),
-            Some("It gets to a point"),
-        ),
-        EightyEightData::new(
-            "archive-88x31.gif",
-            Some("https://archive.org/donate"),
-            None,
-        ),
-        EightyEightData::new(
-            "copy_that_floppy-88x31.gif",
-            Some("https://archive.org/donate"),
-            None,
-        ),
-        EightyEightData::new("neocities-88x31.gif", Some("https://neocities.org/"), None),
-        EightyEightData::new(
-            "midi_files-88x31.gif",
-            Some("https://www.nccih.nih.gov/health/music-and-health-what-you-need-to-know"),
-            None,
-        ),
-        EightyEightData::new("dr_pepper-88x31.gif", Some("https://drpepper.com/en"), None),
-        EightyEightData::new(
-            "im_no_diva-88x31.gif",
-            Some("https://dev-site.homecamp.biz"),
-            None,
-        ),
-        EightyEightData::new(
-            "steam_powered-88x31.gif",
-            Some("https://web.archive.org/web/20041115052057/http://steampowered.com/"),
-            None,
-        ),
-        EightyEightData::new(
-            "kitrinos-88x31.gif",
-            Some("https://kitrinos.neocities.org/"),
-            None,
-        ),
-        EightyEightData::new(
-            "cool_graphics-88x31.gif",
-            Some("https://codepen.io/trending"),
-            None,
-        ),
-        EightyEightData::new("hellnet-88x31.gif", Some("https://hellnet.work/"), None),
-        EightyEightData::new(
-            "wikipedia-88x31.gif",
-            Some("https://en.wikipedia.org/wiki/Main_Page"),
-            None,
-        ),
-    ];
+    let eighty_eight_data = include_str!("../data/buttons.json");
+    #[allow(clippy::expect_used)]
+    let mut eights: Vec<EightyEightData> =
+        serde_json::from_str(eighty_eight_data).expect("Failed to properly parse buttons.json");
 
     let mut r = rng();
     eights.shuffle(&mut r);
@@ -270,11 +162,11 @@ fn EightyEight(info: EightyEightData) -> impl IntoView {
     view! {
         <a href=info.link target="_blank">
             <img
-                title=info.title.unwrap_or_else(|| "")
+                title=info.title.unwrap_or("")
                 src=format!("/assets/88x31s/{}", info.image)
                 alt=format!(
                     "eighty eight by thirty one linking to {}",
-                    info.link.unwrap_or_else(|| "nowhere :)"),
+                    info.link.unwrap_or("nowhere :)"),
                 )
                 width=88
                 height=31
@@ -283,48 +175,29 @@ fn EightyEight(info: EightyEightData) -> impl IntoView {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Deserialize)]
 struct EightyEightData {
     image: &'static str,
     link: Option<&'static str>,
-
     title: Option<&'static str>,
 }
 
 impl EightyEightData {
-    fn new(image: &'static str, link: Option<&'static str>, title: Option<&'static str>) -> Self {
+    const fn new(
+        image: &'static str,
+        link: Option<&'static str>,
+        title: Option<&'static str>,
+    ) -> Self {
         Self { image, link, title }
     }
 }
 
 #[component]
-fn Projects() -> impl IntoView {
-    view! {
-        <section id="projects-list">
-            <h2>
-                "Here are my " <span style="text-decoration: underline;">
-                    <a href="https://github.com/Jossey28">"projects"</a>
-                </span>
-            </h2>
-
-            <span id="github-card-container">
-                <div
-                    id="github-card"
-                    data-max-repos="5"
-                    data-username="Jossey28"
-                    style="width: 100%; height: fit-content;"
-                ></div>
-            </span>
-        </section>
-    }
-}
-
-#[component]
-pub fn GithubActivity() -> impl IntoView {}
+pub fn Projects() -> impl IntoView {}
 
 #[component]
 fn Footer() -> impl IntoView {
-    let quotes = vec![
+    const QUOTES: [&str; 6] = [
         "Accept everything just the way it is",
         "ts so chopped",
         "I'm employed bro 🫰",
@@ -332,30 +205,16 @@ fn Footer() -> impl IntoView {
         "Thankfully I'm immortal as I've never died before",
         "And when Jossey28 saw the breadth of his domain, he wept, for there were no more worlds left to conquer.",
     ];
-    let now = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap()
-        .as_secs();
-    let quote = quotes[(now % quotes.len() as u64) as usize]; // T-T
 
-    let commit = 'get_commit: {
-        let prim = option_env!("GIT_COMMIT_SHA_RUST");
-        let secnd = option_env!("GIT_COMMIT_SHA_DOCKER");
+    let mut rng = rand::rng();
+    let quote = QUOTES
+        .choose(&mut rng)
+        .map_or("something smart", |quote| *quote);
 
-        if let Some(sha) = prim {
-            if sha.len() > 3 {
-                break 'get_commit sha;
-            }
-        }
-
-        if let Some(sha) = secnd {
-            if sha.len() > 3 {
-                break 'get_commit sha;
-            }
-        }
-
-        "unknown"
-    };
+    let commit = option_env!("GIT_COMMIT_SHA_RUST").map_or_else(
+        || option_env!("GIT_COMMIT_SHA_DOCKER").map_or("unknown", |commit_docker| commit_docker),
+        |commit_rust| commit_rust,
+    );
 
     let next = EightyEightData::new("continue_the_ring-88x31.gif", None, None);
 
@@ -380,7 +239,7 @@ fn Footer() -> impl IntoView {
                         )}
                     </a>
                 </span>
-                <span>{format!(" | {} ™ — Aristotle", quote)}</span>
+                <span>{format!(" | {quote} ™ — Aristotle")}</span>
             </small>
 
             <span id="ring-next" onclick="gleebusOpen(1)">

@@ -18,7 +18,7 @@ cd jossies_site
 
 rustup target add wasm32-unknown-unknown
 
-cargo build
+cargo build --features ssr
 
 cargo install leptosfmt
 cargo install --locked cargo-leptos
