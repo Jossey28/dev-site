@@ -1,2 +1,9 @@
+[cargo]
+features = ["ssr"]
+
+[check]
+command = "clippy"
+extraArgs = ["--features", "ssr"]
+
 [rustfmt]
 overrideCommand = ["leptosfmt", "--stdin", "--rustfmt"]
