@@ -51,6 +51,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 
 #[must_use]
 #[component]
+#[allow(clippy::must_use_candidate)]
 pub fn App() -> impl IntoView {
     provide_meta_context();
 
