@@ -28,12 +28,12 @@ getrandom = { version = "0.4.2", features = ["wasm_js"] }
 leptos_axum = { version = "0.8.9", optional = true }
 axum = { version = "0.8.9", optional = true }
 tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"], optional = true }
-rusqlite = { version = "0.40.2", features = ["bundled"], optional = true }
 tower-livereload = { version = "0.10.3", optional = true }
 
 # Client/WASM-only dependencies (optional)
 wasm-bindgen = { version = "0.2.121", optional = true }
 console_error_panic_hook = { version = "0.1.7", optional = true }
+anyhow = "1.0.104"
 
 [features]
 default = ["ssr"]
@@ -50,7 +50,6 @@ ssr = [
     "dep:leptos_axum",
     "dep:axum",
     "dep:tokio",
-    "dep:rusqlite",
     "dep:tower-livereload",
 ]
 

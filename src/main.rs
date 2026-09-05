@@ -1,6 +1,8 @@
+use anyhow::{Context, Result};
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<()> {
     use axum::Router;
     use dev_site::app::{App, shell};
     use leptos::logging::log;
@@ -26,28 +28,29 @@ async fn main() {
         use tower_livereload::LiveReloadLayer;
         let app = app.clone().layer(LiveReloadLayer::new());
         log!("LIVE RELOAD ON ; listening on http://{}", &addr);
-        #[allow(clippy::expect_used)]
         let listener = tokio::net::TcpListener::bind(&addr)
             .await
-            .expect("Unable to bind to port");
-        #[allow(clippy::expect_used)]
-        // Since theres no point in continuing if either of these fail
+            .context("Unable to bind to port")?;
+
         axum::serve(listener, app.into_make_service())
             .await
-            .expect("Failed to serve app");
+            .context("Failed to serve app")?;
+
+        Ok(())
     }
 
     #[cfg(not(debug_assertions))]
     {
         log!("listening on http://{}", &addr);
-        #[allow(clippy::expect_used)]
         let listener = tokio::net::TcpListener::bind(&addr)
             .await
-            .expect("Unable to bind to port");
-        #[allow(clippy::expect_used)]
+            .context("Unable to bind to port")?;
+
         axum::serve(listener, app.into_make_service())
             .await
-            .expect("Failed to serve app");
+            .context("Failed to serve app")?;
+
+        Ok(())
     }
 }
 

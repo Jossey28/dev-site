@@ -1,3 +1,4 @@
+use anyhow::Context;
 use leptos::prelude::*;
 use leptos_meta::{MetaTags, Stylesheet, Title, provide_meta_context};
 use leptos_router::{
@@ -10,6 +11,8 @@ use rand::{
     seq::{IndexedRandom, SliceRandom},
 };
 use serde::Deserialize;
+
+const EIGHTYEIGHTS: &str = include_str!("../data/buttons.jsonl");
 
 #[must_use]
 pub fn shell(options: LeptosOptions) -> impl IntoView {
@@ -82,7 +85,7 @@ fn HomePage() -> impl IntoView {
     view! {
         // <NavBar />
         <AboutMe />
-        <Projects />
+        // <Projects />
         <Footer />
     }
 }
@@ -102,21 +105,16 @@ fn NavBar() -> impl IntoView {
 
 #[component]
 fn AboutMe() -> impl IntoView {
-    // let mat_88 = EightyEightData::new(
-    //     "mat_does_dev-88x31.gif",
-    //     Some("https://matdoes.dev/"),
-    //     Some("Great collecter of 88x31s"),
-    // );
+    let mat_88 = EightyEight::get_by_image("mat_does_dev-88x31.gif").unwrap();
 
     view! {
         <section id="about-me">
             <h2>
                 "About Me via " <span style="text-decoration: underline;">
                     <a href="https://en.wikipedia.org/wiki/Web_badge">"88x31s"</a>
+                </span> "  couresty of  " <span id="mat-apprecation">
+                    <EightyEight info=mat_88 />
                 </span>
-            // "couresty of" <span id="mat-apprecation">
-            // <EightyEight info=mat_88 />
-            // </span>
             </h2>
 
             <div id="table-of-88x31s" class="marquee-boss">
@@ -128,12 +126,27 @@ fn AboutMe() -> impl IntoView {
     }
 }
 
+fn read_88x31s() -> anyhow::Result<Vec<EightyEight>> {
+    let mut entries: Vec<EightyEight> = Vec::new();
+
+    for line in EIGHTYEIGHTS.lines() {
+        let trimmed = line.trim();
+
+        if trimmed.is_empty() {
+            continue;
+        }
+
+        let entry: EightyEight =
+            serde_json::from_str(trimmed).context("Had issues parsing the JSONL file")?;
+        entries.push(entry);
+    }
+
+    Ok(entries)
+}
+
 #[component]
 fn Create88x31Row() -> impl IntoView {
-    let eighty_eight_data = include_str!("../data/buttons.json");
-    #[allow(clippy::expect_used)]
-    let mut eights: Vec<EightyEightData> =
-        serde_json::from_str(eighty_eight_data).expect("Failed to properly parse buttons.json");
+    let mut eights: Vec<EightyEight> = read_88x31s().unwrap();
 
     let mut r = rng();
     eights.shuffle(&mut r);
@@ -144,14 +157,14 @@ fn Create88x31Row() -> impl IntoView {
                 // https://docs.rs/leptos/latest/leptos/attr.component.html
                 {eights
                     .iter()
-                    .map(|child| view! { <EightyEight info=*child /> })
+                    .map(|child| view! { <EightyEight info=child.clone() /> })
                     .collect::<Vec<_>>()}
             </span>
 
             <span class="class-88x31s marquee-content">
                 {eights
                     .iter()
-                    .map(|child| view! { <EightyEight info=*child /> })
+                    .map(|child| view! { <EightyEight info=child.clone() /> })
                     .collect::<Vec<_>>()}
             </span>
         </div>
@@ -159,15 +172,15 @@ fn Create88x31Row() -> impl IntoView {
 }
 
 #[component]
-fn EightyEight(info: EightyEightData) -> impl IntoView {
+fn EightyEight(info: EightyEight) -> impl IntoView {
     view! {
-        <a href=info.link target="_blank">
+        <a href=info.url target="_blank">
             <img
-                title=info.title.unwrap_or("")
+                title=info.alt_text.unwrap_or_default()
                 src=format!("/assets/88x31s/{}", info.image)
                 alt=format!(
                     "eighty eight by thirty one linking to {}",
-                    info.link.unwrap_or("nowhere :)"),
+                    info.url.clone().unwrap_or_else(|| "nowhere :)".into()),
                 )
                 width=88
                 height=31
@@ -176,25 +189,36 @@ fn EightyEight(info: EightyEightData) -> impl IntoView {
     }
 }
 
-#[derive(Debug, Clone, Copy, Deserialize)]
-struct EightyEightData {
-    image: &'static str,
-    link: Option<&'static str>,
-    title: Option<&'static str>,
+#[derive(Debug, Clone, Deserialize)]
+struct EightyEight {
+    image: String,
+    url: Option<String>,
+    alt_text: Option<String>,
 }
 
-impl EightyEightData {
-    const fn new(
-        image: &'static str,
-        link: Option<&'static str>,
-        title: Option<&'static str>,
-    ) -> Self {
-        Self { image, link, title }
+impl EightyEight {
+    pub fn get_by_image(image: &str) -> Option<Self> {
+        for line in EIGHTYEIGHTS.lines() {
+            let trimmed = line.trim();
+
+            if trimmed.is_empty() {
+                continue;
+            }
+
+            #[allow(clippy::unwrap_used)]
+            let entry: Self = serde_json::from_str(trimmed).unwrap();
+
+            if entry.image == image {
+                return Some(entry);
+            }
+        }
+
+        None
     }
 }
 
-#[component]
-pub fn Projects() -> impl IntoView {}
+// #[component]
+// pub fn Projects() -> impl IntoView {}
 
 #[component]
 fn Footer() -> impl IntoView {
@@ -217,9 +241,8 @@ fn Footer() -> impl IntoView {
         |commit_rust| commit_rust,
     );
 
-    let next = EightyEightData::new("continue_the_ring-88x31.gif", None, None);
-
-    let prev = EightyEightData::new("continue_the_ring-2-88x31.gif", None, None);
+    let next = EightyEight::get_by_image("continue_the_ring_next-88x31.gif").unwrap();
+    let prev = EightyEight::get_by_image("continue_the_ring_prev-88x31.gif").unwrap();
 
     view! {
         <footer>
